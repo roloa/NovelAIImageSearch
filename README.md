@@ -11,13 +11,53 @@ https://roloa.github.io/NovelAIImageSearch/
 
 ## 使い方
 
-PILをインストールする。
+### 1. Pillowをインストールする
 
-create_index.pyを実行する。
+```bash
+pip install Pillow
+```
 
-python -m http.serverなどでこのフォルダをホストする。
+### 2. インデックスを作成する
 
-アクセスする。
+画像をプロジェクトフォルダより下に配置し、次のスクリプトを実行します。
+
+画像フォルダは入れ子になっていても大丈夫です。
+
+```bash
+python create_index.py
+```
+
+処理が完了すると、検索に使用するindex.jsonが生成されます。
+
+tag_count.jsonも生成されますが、これは今のところ何にも使われません。
+
+### 3. Webサーバーを起動する
+
+このツールはブラウザから利用します。
+
+プロジェクトのルートディレクトリで次のコマンドを実行してください。
+
+```bash
+python -m http.server 8000
+```
+
+### 4. ブラウザで開く
+
+Webサーバー起動後、ブラウザで以下のURLにアクセスしてください。
+
+```text
+http://localhost:8000/
+```
+
+検索画面が表示されれば準備完了です。
+
+### 補足
+
+画像を追加・削除した場合は、再度インデックス生成を実行してください。
+
+```bash
+python create_index.py
+```
 
 ## 機能
 
