@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>NovelAI Image Search</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1><a href="novelai.html">Image Search</a></h1>
+
+    <input id="query" type="text" placeholder="search keyword">
+    <button onclick="search_button()">Search</button>
+    <label>
+        <input type="radio" id="result_latest" name="result_order">
+        最新
+    </label>
+    <label>
+        <input type="radio" id="result_random" name="result_order" checked>
+        ランダム
+    </label>
+    <label>
+        <input type="radio" id="result_timeline" name="result_order">
+        タイムライン
+    </label>
+    <label>
+        <input type="radio" id="result_near_id" name="result_order">
+        近傍ID
+    </label>
+    <label>
+        <input type="checkbox" id="check_v3">
+        v3
+    </label>
+    <label>
+        <input type="checkbox" id="check_v4" checked>
+        v4
+    </label>
+
+    <label>
+        <label for="result_count">表示枚数:</label>
+        <select id="result_count" name="result_count">
+            <option value="1">1枚</option>
+            <option value="2">2枚</option>
+            <option value="4" selected>4枚</option>
+            <option value="8">8枚</option>
+            <option value="16">16枚</option>
+            <option value="32">32枚</option>
+            <option value="64">64枚</option>
+        </select>
+    </label>
+
+    <div id="results" class="results"></div>
+
+    <div><a href="random.html">random.html</a></div>
+    <div><a href="tag_wondering.html">tag_wondering.html</a></div>
+
+    <script src="novelai.js">
+
+    </script>
+
+</body>
+
+</html>
