@@ -11,6 +11,13 @@ function query_on_key_down(e) {
     return false;
 }
 
+// TL係数スライダーの動作
+const slider = document.getElementById("bias_factor");
+const value = document.getElementById("bias_factor_value");
+slider.addEventListener("input", () => {
+    value.textContent = slider.value;
+});
+
 let indexData = [];
 
 // index.json を読み込む
@@ -58,28 +65,64 @@ function shuffle(array) {
     }
 }
 
-function summarizeArray(arr, target) {
+function summarizeArray(arr, target, factor = 0) {
 
     if (arr.length < target) {
         return arr;
     }
 
-    const step = (arr.length - 1) / (target - 1);
     const selected = [];
+    const last = arr.length - 1;
+    const power = factor + 1;
 
     for (let i = 0; i < target; i++) {
-        let base = i * step;
 
-        // 先頭と末尾は固定
-        if (i !== 0 && i !== target - 1) {
-            const jitter = (Math.random() - 0.5) * step; // ±step/2
-            base += jitter;
+        // 0～1の位置
+        let t = 0;
+        if (target > 1) {
+            t = i / (target - 1);
+        }
+
+        // 指数変換
+        let base = Math.pow(t, power) * last;
+        
+        // 前半密集防止
+        base += i;
+
+        // この地点での前後の間隔を求める
+        let prev = 0;
+        if (i > 0) {
+            const prevT = (i - 1) / (target - 1);
+            prev = Math.pow(prevT, power) * last;
+        }
+
+        let next = last;
+        if (i < target - 1) {
+            const nextT = (i + 1) / (target - 1);
+            next = Math.pow(nextT, power) * last;
+        }
+
+        const localStep = (next - prev) / 2;
+
+        // ランダム性
+        if (i == 0) {
+            base += Math.random() * localStep / 2;
+        } else if (i == target - 1) {
+            base -= Math.random() * localStep / 2;
+        } else {
+            base += (Math.random() - 0.5) * localStep;
         }
 
         let index = Math.round(base);
 
         // 範囲補正
-        index = Math.max(0, Math.min(arr.length - 1, index));
+        if (index < 0) {
+            index = 0;
+        }
+
+        if (index > last) {
+            index = last;
+        }
 
         selected.push(arr[index]);
     }
@@ -202,7 +245,8 @@ function search(q) {
                 matches.push(item);
             }
         }
-        summarizeArray(matches, result_count);
+        
+        summarizeArray(matches, result_count, slider.value);
     }
 
     // 近傍ID表示
