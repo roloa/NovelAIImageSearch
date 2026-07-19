@@ -246,7 +246,7 @@ function search(q) {
             }
         }
         
-        summarizeArray(matches, result_count, slider.value);
+        summarizeArray(matches, result_count, Number(slider.value));
     }
 
     // 近傍ID表示
